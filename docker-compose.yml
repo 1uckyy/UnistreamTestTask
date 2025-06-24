@@ -15,7 +15,7 @@ services:
       - "5433:5432"
     container_name: unistream.database
     environment:
-      - POSTGRES_DB=unistream2
+      - POSTGRES_DB=unistream
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
