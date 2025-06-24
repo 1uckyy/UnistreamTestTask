@@ -1,0 +1,39 @@
+services:
+  unistream.api:
+    image: ${DOCKER_REGISTRY-}unistreamapi
+    container_name: unistream.api
+    build:
+      context: .
+      dockerfile: Unistream.Api/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+ 
+  unistream.database:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    container_name: unistream.database
+    environment:
+      - POSTGRES_DB=unistream2
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  seq:
+    image: datalust/seq:latest
+    container_name: seq
+    ports:
+      - "5341:5341"
+      - "80:80"
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=admin
+    volumes:
+      - seq_data:/data
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  seq_data:  
